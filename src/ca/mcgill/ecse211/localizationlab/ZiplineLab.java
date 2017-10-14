@@ -97,9 +97,6 @@ public static void main(String[] args) {
     
 	buttonChoice = Button.waitForAnyPress();
 	
-	
-	
-	
 	// clear the display
 	t.clear();
     	// ask the user to start localizing
@@ -151,5 +148,14 @@ static int modifyPoint(int pos, int firstChoice) {
 		firstChoice = Button.waitForAnyPress();
 	}while (firstChoice != Button.ID_ENTER);
 	return pos;
+}
+
+//Return the X inputed (used for other classes)
+static int getX() {
+	return x;
+}
+//Return the Y inputed (used for other classes)
+static int getY() {
+	return y;
 }
 }

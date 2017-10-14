@@ -123,6 +123,9 @@ public static void main(String[] args) {
     }
     while(Button.waitForAnyPress() != Button.ID_ENTER);
     lightLocalizer.run();
+    double realX = x *30.48;
+    double realY = y* 30.48;
+    navigation.travelTo(realX, realY);
     	
     	while(Button.waitForAnyPress() != Button.ID_ESCAPE);
     	System.exit(0);

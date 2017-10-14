@@ -35,6 +35,7 @@ public class ZiplineLab {
   public static final double GRID_LENGTH = 30.48;
   private static int x = 0;
   private static int y = 0;
+  static final TextLCD t = LocalEV3.get().getTextLCD();
 
 /**
  * @param args
@@ -47,64 +48,58 @@ public static void main(String[] args) {
     float usData[] = new float[usDistance.sampleSize()];	// Contains distance values
     //
     Odometer odometer = new Odometer(leftMotor, rightMotor);
-    final TextLCD t = LocalEV3.get().getTextLCD();
+    //final TextLCD t = LocalEV3.get().getTextLCD();
     LCDDisplay lcdDisplay = new LCDDisplay(odometer, t, usSensor, usData);
     Navigation navigation = new Navigation(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK, odometer);
     // Setup Light sensor to obtain data
     SampleProvider colorSample = lightSensor.getMode("Red");
     float [] lightData = new float[colorSample.sampleSize()];
     LightLocalizer lightLocalizer = new LightLocalizer(odometer, colorSample, lightData, navigation);
-    
-    //Display
     int buttonChoice;
-    do{
+
     	// clear the display
     	t.clear();
-    	
-    	// ask the user to start localizing
-   	t.drawString("  Select Point  ", 0, 0);
-    t.drawString("----------------", 0, 1);
-    t.drawString("  Left  | Right ", 0, 2);
-    t.drawString("X:0     |Y:     ", 0, 3);
-    t.drawString("        |       ", 0, 4);
+       	
+   	// ask the user to input the X position
+    	t.drawString("   Value of X   ", 0, 0);
+   	t.drawString("                ", 0, 1);
+ 	t.drawString("                ", 0, 2);
+    	t.drawString(" Press Enter to ", 0, 3);
+   	t.drawString("  Go to Y axis  ", 0, 4);
+        
+    	buttonChoice = Button.waitForAnyPress();
+    	x=modifyPoint(x, buttonChoice);
     
- 	buttonChoice = Button.waitForAnyPress();
-	} while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
-
+    	// clear the display
+	t.clear();
+   	
+	// ask the user to input the Y position
+	t.drawString("   Value of Y   ", 0, 0);
+	t.drawString("                ", 0, 1);
+	t.drawString("                ", 0, 2);
+	t.drawString(" Press Enter to ", 0, 3);
+	t.drawString("     Review     ", 0, 4);
     
-   //to add: TURN INTO MERHOD + BE ABLE TO CHANGE BETWEEN X AND Y  
-    if (buttonChoice == Button.ID_LEFT) {
-    		while(x<=12 || x<0) {
-    			buttonChoice = Button.waitForAnyPress();
-    			while (buttonChoice != Button.ID_UP && buttonChoice != Button.ID_DOWN);	
-    			if (buttonChoice == Button.ID_UP) {
-    				x++;
-    				t.drawString(""+x, 2, 3);
-    			}
-    			else {
-    				x--;
-    				t.drawString(""+x, 2, 3);
-    			}
-    		}
-    }
-    else {
-    		while(y<=12 || y<0) {
-			buttonChoice = Button.waitForAnyPress();
-			while (buttonChoice != Button.ID_UP && buttonChoice != Button.ID_DOWN);	
-			if (buttonChoice == Button.ID_UP) {
-				y++;
-				t.drawString(""+y, 11, 3);
-			}
-			else {
-				y--;
-				t.drawString(""+y, 11, 3);
-			}
-		}
-    }
-  
+	buttonChoice = Button.waitForAnyPress();
+	y=modifyPoint(y, buttonChoice);
     
+ 	// clear the display
+	t.clear();
+   	
+	// Display the (x,y) of the point inputted
+	t.drawString("     Point      ", 0, 0);
+	t.drawString("X:              ", 0, 1);
+	t.drawString(""+x, 2, 1);
+	t.drawString("Y:              ", 0, 2);
+	t.drawString(""+y, 2, 2);
+	t.drawString(" Press Enter to ", 0, 3);
+	t.drawString("     Start      ", 0, 4);
     
-    
+	buttonChoice = Button.waitForAnyPress();
+	
+	
+	
+	
 	// clear the display
 	t.clear();
     	// ask the user to start localizing
@@ -137,4 +132,24 @@ public static void main(String[] args) {
 
     
   }
+
+//Method that updates the x/y position on the screen and the variable
+static int modifyPoint(int pos, int firstChoice) {
+	do{
+		if(firstChoice == Button.ID_UP) {
+			if(pos<12) {
+				pos++;
+				t.drawString(""+pos, 8, 1);
+			}
+		}
+		else if(firstChoice == Button.ID_DOWN) {
+			if(pos>0) {
+				pos--;
+				t.drawString(""+pos, 8, 1);
+			}
+		}
+		firstChoice = Button.waitForAnyPress();
+	}while (firstChoice != Button.ID_ENTER);
+	return pos;
+}
 }

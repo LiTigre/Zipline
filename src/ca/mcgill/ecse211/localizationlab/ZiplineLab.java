@@ -86,7 +86,7 @@ public static void main(String[] args) {
  	// clear the display
 	t.clear();
    	
-	// Display the (x,y) of the point inputted
+	// Display the (x,y) of the point inputed
 	t.drawString("     Point      ", 0, 0);
 	t.drawString("X:              ", 0, 1);
 	t.drawString(""+x, 2, 1);

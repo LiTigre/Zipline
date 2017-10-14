@@ -1,9 +1,9 @@
 // Lab2.java
 
-package ca.mcgill.ecse211.zipline;
+package ca.mcgill.ecse211.localizationlab;
 
-import ca.mcgill.ecse211.zipline.Navigation;
-import ca.mcgill.ecse211.zipline.UltrasonicLocalizer.LocalizationState;
+import ca.mcgill.ecse211.localizationlab.UltrasonicLocalizer.LocalizationState;
+import ca.mcgill.ecse211.localizationlab.Navigation;
 import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
@@ -19,7 +19,7 @@ import lejos.robotics.SampleProvider;
  * @author Christos Panaritis and Kevin Chuong
  *
  */
-public class LocalizationLab {
+public class ZiplineLab {
 
   static final EV3LargeRegulatedMotor leftMotor =
       new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
@@ -33,6 +33,8 @@ public class LocalizationLab {
   public static final double WHEEL_RADIUS = 2.15;
   public static final double TRACK = 12.16;
   public static final double GRID_LENGTH = 30.48;
+  private static int x = 0;
+  private static int y = 0;
 
 /**
  * @param args
@@ -58,7 +60,53 @@ public static void main(String[] args) {
     do{
     	// clear the display
     	t.clear();
+    	
+    	// ask the user to start localizing
+   	t.drawString("  Select Point  ", 0, 0);
+    t.drawString("----------------", 0, 1);
+    t.drawString("  Left  | Right ", 0, 2);
+    t.drawString("X:0     |Y:     ", 0, 3);
+    t.drawString("        |       ", 0, 4);
+    
+ 	buttonChoice = Button.waitForAnyPress();
+	} while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
 
+    
+   //to add: TURN INTO MERHOD + BE ABLE TO CHANGE BETWEEN X AND Y  
+    if (buttonChoice == Button.ID_LEFT) {
+    		while(x<=12 || x<0) {
+    			buttonChoice = Button.waitForAnyPress();
+    			while (buttonChoice != Button.ID_UP && buttonChoice != Button.ID_DOWN);	
+    			if (buttonChoice == Button.ID_UP) {
+    				x++;
+    				t.drawString(""+x, 2, 3);
+    			}
+    			else {
+    				x--;
+    				t.drawString(""+x, 2, 3);
+    			}
+    		}
+    }
+    else {
+    		while(y<=12 || y<0) {
+			buttonChoice = Button.waitForAnyPress();
+			while (buttonChoice != Button.ID_UP && buttonChoice != Button.ID_DOWN);	
+			if (buttonChoice == Button.ID_UP) {
+				y++;
+				t.drawString(""+y, 11, 3);
+			}
+			else {
+				y--;
+				t.drawString(""+y, 11, 3);
+			}
+		}
+    }
+  
+    
+    
+    
+	// clear the display
+	t.clear();
     	// ask the user to start localizing
     	 t.drawString("< Left | Right >", 0, 0);
      t.drawString("       |        ", 0, 1);
@@ -67,7 +115,7 @@ public static void main(String[] args) {
      t.drawString("       |        ", 0, 4);
      
     	buttonChoice = Button.waitForAnyPress();
-    	} while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
+    	while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
 
     if (buttonChoice == Button.ID_LEFT) {
     		UltrasonicLocalizer localizer = new UltrasonicLocalizer(odometer, LocalizationState.FALLING_EDGE, usSensor, usData, navigation);

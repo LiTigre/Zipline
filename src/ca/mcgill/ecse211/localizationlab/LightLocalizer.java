@@ -1,6 +1,6 @@
-package ca.mcgill.ecse211.zipline;
+package ca.mcgill.ecse211.localizationlab;
 
-import ca.mcgill.ecse211.zipline.UltrasonicLocalizer.LocalizationState;
+import ca.mcgill.ecse211.localizationlab.UltrasonicLocalizer.LocalizationState;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.robotics.SampleProvider;

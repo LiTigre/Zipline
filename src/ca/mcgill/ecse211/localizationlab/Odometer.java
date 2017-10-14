@@ -1,4 +1,4 @@
-package ca.mcgill.ecse211.zipline;
+package ca.mcgill.ecse211.localizationlab;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
@@ -53,12 +53,12 @@ public void run() {
       															   					 the change in X position,
       															   					 the change in Y position,
        																				 */
-      distLeft = Math.PI*LocalizationLab.WHEEL_RADIUS*(leftMotor.getTachoCount() - leftMotorTachoCount)/180; // Calculated using arclength
-      distRight = Math.PI*LocalizationLab.WHEEL_RADIUS*(rightMotor.getTachoCount() - rightMotorTachoCount)/180;
+      distLeft = Math.PI*ZiplineLab.WHEEL_RADIUS*(leftMotor.getTachoCount() - leftMotorTachoCount)/180; // Calculated using arclength
+      distRight = Math.PI*ZiplineLab.WHEEL_RADIUS*(rightMotor.getTachoCount() - rightMotorTachoCount)/180;
       leftMotorTachoCount = leftMotor.getTachoCount(); // Save current TachoCount (change in angle) for next iteration
       rightMotorTachoCount = rightMotor.getTachoCount();
       deltaDistance = (distLeft+distRight)/2;	//Compute displacement of vehicle
-      deltaTheta = (distLeft-distRight)/LocalizationLab.TRACK;	//Compute heading
+      deltaTheta = (distLeft-distRight)/ZiplineLab.TRACK;	//Compute heading
       
       
       

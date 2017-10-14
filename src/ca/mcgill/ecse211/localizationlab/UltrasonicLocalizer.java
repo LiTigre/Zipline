@@ -1,4 +1,4 @@
-package ca.mcgill.ecse211.zipline;
+package ca.mcgill.ecse211.localizationlab;
 
 import lejos.robotics.SampleProvider;
 
@@ -109,8 +109,8 @@ public class UltrasonicLocalizer {
 	private void turnToWall(){
 		while(!isCompleted){
 			setSpeed(TURN_SPEED);
-			LocalizationLab.leftMotor.forward();
-			LocalizationLab.rightMotor.backward();
+			ZiplineLab.leftMotor.forward();
+			ZiplineLab.rightMotor.backward();
 			
 			//Checks if we reached a falling edge
 			if(getDistanceValue() < THRESHOLD_WALL + NOISE_GAP){
@@ -127,8 +127,8 @@ public class UltrasonicLocalizer {
 	private void turnAwayFromWall(){
 		while(!isCompleted){
 			setSpeed(TURN_SPEED);
-			LocalizationLab.leftMotor.forward();
-			LocalizationLab.rightMotor.backward();
+			ZiplineLab.leftMotor.forward();
+			ZiplineLab.rightMotor.backward();
 			
 			if(getDistanceValue() > THRESHOLD_WALL + NOISE_GAP){
 				setSpeed(0);
@@ -164,7 +164,7 @@ public class UltrasonicLocalizer {
 	 * @param speed
 	 */
 	public void setSpeed(int speed){
-		LocalizationLab.leftMotor.setSpeed(speed);
-		LocalizationLab.rightMotor.setSpeed(speed);
+		ZiplineLab.leftMotor.setSpeed(speed);
+		ZiplineLab.rightMotor.setSpeed(speed);
 	}
 }

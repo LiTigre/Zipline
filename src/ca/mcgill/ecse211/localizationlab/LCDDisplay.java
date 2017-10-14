@@ -1,4 +1,4 @@
-package ca.mcgill.ecse211.zipline;
+package ca.mcgill.ecse211.localizationlab;
 
 import lejos.hardware.lcd.TextLCD;
 import lejos.robotics.SampleProvider;

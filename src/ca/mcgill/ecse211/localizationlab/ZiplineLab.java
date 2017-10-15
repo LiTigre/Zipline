@@ -21,144 +21,147 @@ import lejos.robotics.SampleProvider;
  */
 public class ZiplineLab {
 
-  static final EV3LargeRegulatedMotor leftMotor =
-      new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
-  
-  static final EV3LargeRegulatedMotor rightMotor =
-      new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
-  private static final Port usPort = LocalEV3.get().getPort("S4");
-  private static final EV3ColorSensor lightSensor = new EV3ColorSensor(LocalEV3.get().getPort("S3"));
-  public static final EV3LargeRegulatedMotor sensorMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
+	static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("C"));
 
-  public static final double WHEEL_RADIUS = 2.15;
-  public static final double TRACK = 12.16;
-  public static final double GRID_LENGTH = 30.48;
-  private static int x = 0;
-  private static int y = 0;
-  static final TextLCD t = LocalEV3.get().getTextLCD();
+	static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
+	private static final Port usPort = LocalEV3.get().getPort("S4");
+	private static final EV3ColorSensor lightSensor = new EV3ColorSensor(LocalEV3.get().getPort("S3"));
+	public static final EV3LargeRegulatedMotor sensorMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
 
-/**
- * @param args
- */
-public static void main(String[] args) {
-    
-    // Setup Ultrasonic sensor to obtain information on distance.
-    SensorModes usSensor = new EV3UltrasonicSensor(usPort);
-    SampleProvider usDistance = usSensor.getMode("Distance");
-    float usData[] = new float[usDistance.sampleSize()];	// Contains distance values
-    //
-    Odometer odometer = new Odometer(leftMotor, rightMotor);
-    //final TextLCD t = LocalEV3.get().getTextLCD();
-    LCDDisplay lcdDisplay = new LCDDisplay(odometer, t, usSensor, usData);
-    Navigation navigation = new Navigation(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK, odometer);
-    // Setup Light sensor to obtain data
-    SampleProvider colorSample = lightSensor.getMode("Red");
-    float [] lightData = new float[colorSample.sampleSize()];
-    LightLocalizer lightLocalizer = new LightLocalizer(odometer, colorSample, lightData, navigation);
-    int buttonChoice;
+	public static final double WHEEL_RADIUS = 2.15;
+	public static final double TRACK = 12.16;
+	public static final double GRID_LENGTH = 30.48;
+	private static int x = 0;
+	private static int y = 0;
+	static final TextLCD t = LocalEV3.get().getTextLCD();
 
-    	// clear the display
-    	t.clear();
-       	
-   	// ask the user to input the X position
-    	t.drawString("   Value of X   ", 0, 0);
-   	t.drawString("                ", 0, 1);
- 	t.drawString("                ", 0, 2);
-    	t.drawString(" Press Enter to ", 0, 3);
-   	t.drawString("  Go to Y axis  ", 0, 4);
-        
-    	buttonChoice = Button.waitForAnyPress();
-    	x=modifyPoint(x, buttonChoice);
-    
-    	// clear the display
-	t.clear();
-   	
-	// ask the user to input the Y position
-	t.drawString("   Value of Y   ", 0, 0);
-	t.drawString("                ", 0, 1);
-	t.drawString("                ", 0, 2);
-	t.drawString(" Press Enter to ", 0, 3);
-	t.drawString("     Review     ", 0, 4);
-    
-	buttonChoice = Button.waitForAnyPress();
-	y=modifyPoint(y, buttonChoice);
-    
- 	// clear the display
-	t.clear();
-   	
-	// Display the (x,y) of the point inputed
-	t.drawString("     Point      ", 0, 0);
-	t.drawString("X:              ", 0, 1);
-	t.drawString(""+x, 2, 1);
-	t.drawString("Y:              ", 0, 2);
-	t.drawString(""+y, 2, 2);
-	t.drawString(" Press Enter to ", 0, 3);
-	t.drawString("     Start      ", 0, 4);
-    
-	buttonChoice = Button.waitForAnyPress();
-	
-	// clear the display
-	t.clear();
-    	// ask the user to start localizing
-    	 t.drawString("< Left | Right >", 0, 0);
-     t.drawString("       |        ", 0, 1);
-     t.drawString("Falling| Rising ", 0, 2);
-     t.drawString(" Edge  | Edge   ", 0, 3);
-     t.drawString("       |        ", 0, 4);
-     
-    	buttonChoice = Button.waitForAnyPress();
-    	while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
 
-    if (buttonChoice == Button.ID_LEFT) {
-    		UltrasonicLocalizer localizer = new UltrasonicLocalizer(odometer, LocalizationState.FALLING_EDGE, usSensor, usData, navigation);
-    		odometer.start();
-    		lcdDisplay.start();
-    		localizer.localize();
-    } 
-    else {
-    		UltrasonicLocalizer localizer = new UltrasonicLocalizer(odometer, LocalizationState.RISING_EDGE, usSensor, usData, navigation);
-    		odometer.start();
-    		lcdDisplay.start();
-    		localizer.localize();
-    }
-    while(Button.waitForAnyPress() != Button.ID_ENTER);
-    lightLocalizer.run();
-    double realX = x *30.48;
-    double realY = y* 30.48;
-    navigation.travelTo(realX, realY);
-    	
-    	while(Button.waitForAnyPress() != Button.ID_ESCAPE);
-    	System.exit(0);
+		// Setup Ultrasonic sensor to obtain information on distance.
+		SensorModes usSensor = new EV3UltrasonicSensor(usPort);
+		SampleProvider usDistance = usSensor.getMode("Distance");
+		float usData[] = new float[usDistance.sampleSize()]; // Contains distance values
+		//
+		Odometer odometer = new Odometer(leftMotor, rightMotor);
+		// final TextLCD t = LocalEV3.get().getTextLCD();
+		LCDDisplay lcdDisplay = new LCDDisplay(odometer, t, usSensor, usData);
+		Navigation navigation = new Navigation(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK, odometer);
+		// Setup Light sensor to obtain data
+		SampleProvider colorSample = lightSensor.getMode("Red");
+		float[] lightData = new float[colorSample.sampleSize()];
+		LightLocalizer lightLocalizer = new LightLocalizer(odometer, colorSample, lightData, navigation);
+		int buttonChoice;
 
-    
-  }
+		// clear the display
+		t.clear();
 
-//Method that updates the x/y position on the screen and the variable
-static int modifyPoint(int pos, int firstChoice) {
-	do{
-		if(firstChoice == Button.ID_UP) {
-			if(pos<12) {
-				pos++;
-				t.drawString(""+pos, 8, 1);
-			}
+		// ask the user to input the X position
+		t.drawString("   Value of X   ", 0, 0);
+		t.drawString("                ", 0, 1);
+		t.drawString("                ", 0, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("  Go to Y axis  ", 0, 4);
+
+		buttonChoice = Button.waitForAnyPress();
+		x = modifyPoint(x, buttonChoice);
+
+		// clear the display
+		t.clear();
+
+		// ask the user to input the Y position
+		t.drawString("   Value of Y   ", 0, 0);
+		t.drawString("                ", 0, 1);
+		t.drawString("                ", 0, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("     Review     ", 0, 4);
+
+		buttonChoice = Button.waitForAnyPress();
+		y = modifyPoint(y, buttonChoice);
+
+		// clear the display
+		t.clear();
+
+		// Display the (x,y) of the point inputed
+		t.drawString("     Point      ", 0, 0);
+		t.drawString("X:              ", 0, 1);
+		t.drawString("" + x, 2, 1);
+		t.drawString("Y:              ", 0, 2);
+		t.drawString("" + y, 2, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("     Start      ", 0, 4);
+
+		buttonChoice = Button.waitForAnyPress();
+
+		// clear the display
+		t.clear();
+		// ask the user to start localizing
+		t.drawString("< Left | Right >", 0, 0);
+		t.drawString("       |        ", 0, 1);
+		t.drawString("Falling| Rising ", 0, 2);
+		t.drawString(" Edge  | Edge   ", 0, 3);
+		t.drawString("       |        ", 0, 4);
+
+		buttonChoice = Button.waitForAnyPress();
+		while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT)
+			;
+
+		if (buttonChoice == Button.ID_LEFT) {
+			UltrasonicLocalizer localizer = new UltrasonicLocalizer(odometer, LocalizationState.FALLING_EDGE, usSensor,
+					usData, navigation);
+			odometer.start();
+			lcdDisplay.start();
+			localizer.localize();
 		}
-		else if(firstChoice == Button.ID_DOWN) {
-			if(pos>0) {
-				pos--;
-				t.drawString(""+pos, 8, 1);
-			}
+		else {
+			UltrasonicLocalizer localizer = new UltrasonicLocalizer(odometer, LocalizationState.RISING_EDGE, usSensor,
+					usData, navigation);
+			odometer.start();
+			lcdDisplay.start();
+			localizer.localize();
 		}
-		firstChoice = Button.waitForAnyPress();
-	}while (firstChoice != Button.ID_ENTER);
-	return pos;
-}
+		while (Button.waitForAnyPress() != Button.ID_ENTER)
+			;
+		lightLocalizer.run();
+		double realX = x * 30.48;
+		double realY = y * 30.48;
+		navigation.travelTo(realX, realY);
 
-//Return the X inputed (used for other classes)
-static int getX() {
-	return x;
-}
-//Return the Y inputed (used for other classes)
-static int getY() {
-	return y;
-}
+		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
+			;
+		System.exit(0);
+
+	}
+
+	// Method that updates the x/y position on the screen and the variable
+	static int modifyPoint(int pos, int firstChoice) {
+		do {
+			if (firstChoice == Button.ID_UP) {
+				if (pos < 12) {
+					pos++;
+					t.drawString("" + pos, 8, 1);
+				}
+			}
+			else if (firstChoice == Button.ID_DOWN) {
+				if (pos > 0) {
+					pos--;
+					t.drawString("" + pos, 8, 1);
+				}
+			}
+			firstChoice = Button.waitForAnyPress();
+		} while (firstChoice != Button.ID_ENTER);
+		return pos;
+	}
+
+	// Return the X inputed (used for other classes)
+	static int getX() {
+		return x;
+	}
+
+	// Return the Y inputed (used for other classes)
+	static int getY() {
+		return y;
+	}
 }

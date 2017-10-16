@@ -65,8 +65,10 @@ public class Odometer extends Thread {
 				 */
 				theta += Math.toDegrees(deltaTheta); // Update the heading
 				wrapAngle(theta);
-				dX = deltaDistance * Math.sin(Math.toRadians(theta));
-				dY = deltaDistance * Math.cos(Math.toRadians(theta));
+				dX = deltaDistance * Math.sin(Math.toRadians(theta)); // Compute change in X using
+																		// current heading
+				dY = deltaDistance * Math.cos(Math.toRadians(theta)); // Compute change in Y using
+																		// current heading
 
 				x += dX; // Updated x pos
 				y += dY; // Updated y pos

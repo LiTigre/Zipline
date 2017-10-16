@@ -31,8 +31,10 @@ public class ZiplineLab {
 	public static final double WHEEL_RADIUS = 2.15;
 	public static final double TRACK = 12.16;
 	public static final double GRID_LENGTH = 30.48;
-	private static int x = 0;
-	private static int y = 0;
+	private static int initialX = 0;
+	private static int initialY = 0;
+	private static int finalX = 0;
+	private static int finalY = 0;
 	static final TextLCD t = LocalEV3.get().getTextLCD();
 
 	/**
@@ -54,45 +56,9 @@ public class ZiplineLab {
 		float[] lightData = new float[colorSample.sampleSize()];
 		LightLocalizer lightLocalizer = new LightLocalizer(odometer, colorSample, lightData, navigation);
 		int buttonChoice;
-
-		// clear the display
-		t.clear();
-
-		// ask the user to input the X position
-		t.drawString("   Value of X   ", 0, 0);
-		t.drawString("                ", 0, 1);
-		t.drawString("                ", 0, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("  Go to Y axis  ", 0, 4);
-
-		buttonChoice = Button.waitForAnyPress();
-		x = modifyPoint(x, buttonChoice);
-
-		// clear the display
-		t.clear();
-
-		// ask the user to input the Y position
-		t.drawString("   Value of Y   ", 0, 0);
-		t.drawString("                ", 0, 1);
-		t.drawString("                ", 0, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("     Review     ", 0, 4);
-
-		buttonChoice = Button.waitForAnyPress();
-		y = modifyPoint(y, buttonChoice);
-
-		// clear the display
-		t.clear();
-
-		// Display the (x,y) of the point inputed
-		t.drawString("     Point      ", 0, 0);
-		t.drawString("X:              ", 0, 1);
-		t.drawString("" + x, 2, 1);
-		t.drawString("Y:              ", 0, 2);
-		t.drawString("" + y, 2, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("     Start      ", 0, 4);
-
+		
+		//Display the UI
+		coordinatesUI(initialX,initialY);
 		buttonChoice = Button.waitForAnyPress();
 
 		// clear the display
@@ -123,10 +89,15 @@ public class ZiplineLab {
 		}
 		while (Button.waitForAnyPress() != Button.ID_ENTER);
 		lightLocalizer.run();
-		double realX = x * 30.48;
-		double realY = y * 30.48;
+		//convert the points to actual distances
+		double realX = initialX * 30.48;
+		double realY = initialY * 30.48;
 		navigation.travelTo(realX, realY);
 
+		//UI for the second coordinates
+		coordinatesUI(finalX,finalY);
+		buttonChoice = Button.waitForAnyPress();
+		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 		System.exit(0);
 
@@ -151,14 +122,55 @@ public class ZiplineLab {
 		} while (firstChoice != Button.ID_ENTER);
 		return pos;
 	}
+	
+	//UI method to avoid repetition
+	static void coordinatesUI(int posX, int posY) {
+		// clear the display
+		t.clear();
+
+		// ask the user to input the X position
+		t.drawString("   Value of X   ", 0, 0);
+		t.drawString("                ", 0, 1);
+		t.drawString("                ", 0, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("  Go to Y axis  ", 0, 4);
+
+		int buttonChoice = Button.waitForAnyPress();
+		posX = modifyPoint(posX, buttonChoice);
+
+		// clear the display
+		t.clear();
+
+		// ask the user to input the Y position
+		t.drawString("   Value of Y   ", 0, 0);
+		t.drawString("                ", 0, 1);
+		t.drawString("                ", 0, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("     Review     ", 0, 4);
+
+		buttonChoice = Button.waitForAnyPress();
+		posY = modifyPoint(posY, buttonChoice);
+
+		// clear the display
+		t.clear();
+
+		// Display the (x,y) of the point inputed
+		t.drawString("     Point      ", 0, 0);
+		t.drawString("X:              ", 0, 1);
+		t.drawString("" + posX, 2, 1);
+		t.drawString("Y:              ", 0, 2);
+		t.drawString("" + posY, 2, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("     Start      ", 0, 4);
+	}
 
 	// Return the X inputed (used for other classes)
 	static int getX() {
-		return x;
+		return initialX;
 	}
 
 	// Return the Y inputed (used for other classes)
 	static int getY() {
-		return y;
+		return initialY;
 	}
 }

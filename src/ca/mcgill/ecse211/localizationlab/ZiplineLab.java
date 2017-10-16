@@ -164,13 +164,23 @@ public class ZiplineLab {
 		t.drawString("     Start      ", 0, 4);
 	}
 
-	// Return the X inputed (used for other classes)
-	static int getX() {
+	// Return the initial X inputed (used for other classes)
+	static int getInitialX() {
 		return initialX;
+	}
+	
+	//Return the final X inputed
+	static int getFinalX() {
+		return finalX;
 	}
 
 	// Return the Y inputed (used for other classes)
-	static int getY() {
+	static int getInitialY() {
 		return initialY;
+	}
+	
+	//Return the final Y inputed 
+	static int getFinalY() {
+		return finalY;
 	}
 }

@@ -105,8 +105,7 @@ public class ZiplineLab {
 		t.drawString("       |        ", 0, 4);
 
 		buttonChoice = Button.waitForAnyPress();
-		while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT)
-			;
+		while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
 
 		if (buttonChoice == Button.ID_LEFT) {
 			UltrasonicLocalizer localizer = new UltrasonicLocalizer(odometer, LocalizationState.FALLING_EDGE, usSensor,
@@ -122,15 +121,13 @@ public class ZiplineLab {
 			lcdDisplay.start();
 			localizer.localize();
 		}
-		while (Button.waitForAnyPress() != Button.ID_ENTER)
-			;
+		while (Button.waitForAnyPress() != Button.ID_ENTER);
 		lightLocalizer.run();
 		double realX = x * 30.48;
 		double realY = y * 30.48;
 		navigation.travelTo(realX, realY);
 
-		while (Button.waitForAnyPress() != Button.ID_ESCAPE)
-			;
+		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 		System.exit(0);
 
 	}

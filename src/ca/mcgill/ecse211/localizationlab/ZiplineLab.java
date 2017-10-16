@@ -95,7 +95,7 @@ public class ZiplineLab {
 		navigation.travelTo(realX, realY);
 
 		//UI for the second coordinates
-		coordinatesUI(finalX,finalY);
+		//coordinatesUI(finalX,finalY);
 		buttonChoice = Button.waitForAnyPress();
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
@@ -170,9 +170,9 @@ public class ZiplineLab {
 	}
 	
 	//Return the final X inputed
-	static int getFinalX() {
-		return finalX;
-	}
+	//static int getFinalX() {
+	//	return finalX;
+	//}
 
 	// Return the Y inputed (used for other classes)
 	static int getInitialY() {
@@ -180,7 +180,7 @@ public class ZiplineLab {
 	}
 	
 	//Return the final Y inputed 
-	static int getFinalY() {
-		return finalY;
-	}
+	//static int getFinalY() {
+	//	return finalY;
+	//}
 }

@@ -6,14 +6,21 @@ public class Zipline extends Thread{
 	
 	EV3LargeRegulatedMotor motor;
 	private final int SPEED = 50;
+	private volatile boolean running = true;
 	
 	public Zipline(EV3LargeRegulatedMotor motor) {
 		this.motor = motor;
 	}
 	
 	public void run() {
-		motor.setSpeed(SPEED);
-		motor.backward();
+		while (running) {
+			motor.setSpeed(SPEED);
+			motor.backward();			
+		}
+	}
+	
+	public void terminate() {
+		this.running = false;
 	}
 	
 }

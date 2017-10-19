@@ -1,6 +1,19 @@
 package ca.mcgill.ecse211.localizationlab;
 
-public class Zipline {
-//this is the class where the zipline part of the lab should be implemented
-//should use odometer to track position of the robot
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+
+public class Zipline extends Thread{
+	
+	EV3LargeRegulatedMotor motor;
+	private final int SPEED = 50;
+	
+	public Zipline(EV3LargeRegulatedMotor motor) {
+		this.motor = motor;
+	}
+	
+	public void run() {
+		motor.setSpeed(SPEED);
+		motor.backward();
+	}
+	
 }

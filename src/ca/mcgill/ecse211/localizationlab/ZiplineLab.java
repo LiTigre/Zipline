@@ -55,6 +55,8 @@ public class ZiplineLab {
 		SampleProvider colorSample = lightSensor.getMode("Red");
 		float[] lightData = new float[colorSample.sampleSize()];
 		LightLocalizer lightLocalizer = new LightLocalizer(odometer, colorSample, lightData, navigation);
+		Zipline zipline = new Zipline(sensorMotor, leftMotor, rightMotor);
+		
 		int buttonChoice;
 		
 		t.clear();
@@ -91,7 +93,7 @@ public class ZiplineLab {
 		t.drawString("     Review     ", 0, 4);
 
 		buttonChoice = Button.waitForAnyPress();
-		initialY = modifyPoint(initialY, buttonChoice, 3);
+		initialY = modifyPoint(initialY, buttonChoice, 8);
 
 		// clear the display
 		t.clear();
@@ -127,7 +129,7 @@ public class ZiplineLab {
 		t.drawString("  Go to Y axis  ", 0, 4);
 
 		buttonChoice = Button.waitForAnyPress();
-		initialX = modifyPoint(finalX, buttonChoice, 8);
+		finalX = modifyPoint(finalX, buttonChoice, 3);
 
 		// clear the display
 		t.clear();
@@ -188,12 +190,16 @@ public class ZiplineLab {
 		//convert the points to actual distances
 		double realX = getInitialX() * 30.48;
 		double realY = getInitialY() * 30.48;
-		System.out.println(realX);
-		System.out.println(realY);
 		navigation.travelTo(realX, realY);
-
-
+		
 		buttonChoice = Button.waitForAnyPress();
+		//convert the points to actual distances
+		double realCornerX = getCornerX() * 30.48;
+		double realCornerY = getCornerY() * 30.48;
+		navigation.travelTo(realCornerX, realCornerY);
+		
+		buttonChoice = Button.waitForAnyPress();
+		zipline.run();
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 		System.exit(0);

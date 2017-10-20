@@ -42,8 +42,8 @@ public class LightLocalizer extends Thread {
 	 * @see java.lang.Thread#run()
 	 */
 	public void run() {
-		navigation.rightMotor.setSpeed(50);
-		navigation.leftMotor.setSpeed(50);
+		//navigation.rightMotor.setSpeed(50);
+		//navigation.leftMotor.setSpeed(50);
 		//navigation.rightMotor.backward();
 		//navigation.leftMotor.forward();
 		navigation.turnTo(360);

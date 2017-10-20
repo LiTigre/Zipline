@@ -52,9 +52,8 @@ public class LightLocalizer extends Thread {
 			colorSample.fetchSample(lightData, 0); // Get data from color sensor
 		
 			scaledColor = lightData[0]*1000; 
-			System.out.println(scaledColor);
 			// Collect data during the ultrasonic localization is running
-			if(scaledColor < 250) {
+			if(scaledColor < 400) {
 	    			//implement collecting data here
 	    			Sound.beep();
 	    			collectedData[i] = odometer.getTheta();

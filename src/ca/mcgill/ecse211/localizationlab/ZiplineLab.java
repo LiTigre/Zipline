@@ -28,7 +28,7 @@ public class ZiplineLab {
 	private static final EV3ColorSensor lightSensor = new EV3ColorSensor(LocalEV3.get().getPort("S1"));
 	public static final EV3LargeRegulatedMotor sensorMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 
-	public static final double WHEEL_RADIUS = 2.15;
+	public static final double WHEEL_RADIUS = 2.2;
 	public static final double TRACK = 14.5;
 	public static final double GRID_LENGTH = 30.48;
 	private static int initialX = 0;
@@ -64,7 +64,8 @@ public class ZiplineLab {
 		t.drawString("	Starting X,Y  ", 0, 2);
 		t.drawString("                ", 0, 3);
 		t.drawString("                ", 0, 4);
-
+		buttonChoice = Button.waitForAnyPress();
+		
 		//Display the UI
 		coordinatesUI(initialX,initialY, 8);
 		buttonChoice = Button.waitForAnyPress();
@@ -76,7 +77,7 @@ public class ZiplineLab {
 		t.drawString("	Corner X,Y    ", 0, 2);
 		t.drawString("                ", 0, 3);
 		t.drawString("                ", 0, 4);
-
+		buttonChoice = Button.waitForAnyPress();
 
 		coordinatesUI(finalX, finalY, 3);
 		buttonChoice = Button.waitForAnyPress();

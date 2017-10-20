@@ -22,7 +22,7 @@ public class LightLocalizer extends Thread {
 	private double deltaTheta; 
 
 	//Constant(s)
-	private static final double sensorToTrack = 14.2;
+	private static final double sensorToTrack = 13.6;
 	
 	
 	/**

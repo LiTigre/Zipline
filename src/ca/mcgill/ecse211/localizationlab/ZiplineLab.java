@@ -29,7 +29,7 @@ public class ZiplineLab {
 	public static final EV3LargeRegulatedMotor sensorMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 
 	public static final double WHEEL_RADIUS = 2.15;
-	public static final double TRACK = 12.16;
+	public static final double TRACK = 14.5;
 	public static final double GRID_LENGTH = 30.48;
 	private static int initialX = 0;
 	private static int initialY = 0;
@@ -57,10 +57,30 @@ public class ZiplineLab {
 		LightLocalizer lightLocalizer = new LightLocalizer(odometer, colorSample, lightData, navigation);
 		int buttonChoice;
 		
-		//Display the UI
-		coordinatesUI(initialX,initialY);
-		buttonChoice = Button.waitForAnyPress();
+		t.clear();
+		// ask the user to start localizing
+		t.drawString("  Coordinates	  ", 0, 0);
+		t.drawString("       for      ", 0, 1);
+		t.drawString("	Starting X,Y  ", 0, 2);
+		t.drawString("                ", 0, 3);
+		t.drawString("                ", 0, 4);
 
+		//Display the UI
+		coordinatesUI(initialX,initialY, 8);
+		buttonChoice = Button.waitForAnyPress();
+		
+		t.clear();
+		// ask the user to start localizing
+		t.drawString("  Coordinates	  ", 0, 0);
+		t.drawString("       for      ", 0, 1);
+		t.drawString("	Corner X,Y    ", 0, 2);
+		t.drawString("                ", 0, 3);
+		t.drawString("                ", 0, 4);
+
+
+		coordinatesUI(finalX, finalY, 3);
+		buttonChoice = Button.waitForAnyPress();
+		
 		// clear the display
 		t.clear();
 		// ask the user to start localizing
@@ -94,8 +114,7 @@ public class ZiplineLab {
 		double realY = initialY * 30.48;
 		navigation.travelTo(realX, realY);
 
-		//UI for the second coordinates
-		//coordinatesUI(finalX,finalY);
+
 		buttonChoice = Button.waitForAnyPress();
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
@@ -104,10 +123,10 @@ public class ZiplineLab {
 	}
 
 	// Method that updates the x/y position on the screen and the variable
-	static int modifyPoint(int pos, int firstChoice) {
+	static int modifyPoint(int pos, int firstChoice, int maxValue) {
 		do {
 			if (firstChoice == Button.ID_UP) {
-				if (pos < 12) {
+				if (pos < maxValue) {
 					pos++;
 					t.drawString("" + pos, 8, 1);
 				}
@@ -124,7 +143,7 @@ public class ZiplineLab {
 	}
 	
 	//UI method to avoid repetition
-	static void coordinatesUI(int posX, int posY) {
+	static void coordinatesUI(int posX, int posY, int value) {
 		// clear the display
 		t.clear();
 
@@ -136,7 +155,7 @@ public class ZiplineLab {
 		t.drawString("  Go to Y axis  ", 0, 4);
 
 		int buttonChoice = Button.waitForAnyPress();
-		posX = modifyPoint(posX, buttonChoice);
+		posX = modifyPoint(posX, buttonChoice, value);
 
 		// clear the display
 		t.clear();
@@ -149,7 +168,7 @@ public class ZiplineLab {
 		t.drawString("     Review     ", 0, 4);
 
 		buttonChoice = Button.waitForAnyPress();
-		posY = modifyPoint(posY, buttonChoice);
+		posY = modifyPoint(posY, buttonChoice, value);
 
 		// clear the display
 		t.clear();

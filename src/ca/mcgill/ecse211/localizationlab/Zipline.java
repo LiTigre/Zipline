@@ -7,7 +7,7 @@ public class Zipline implements Runnable{
 	EV3LargeRegulatedMotor motor;
 	EV3LargeRegulatedMotor left;
 	EV3LargeRegulatedMotor right;
-	private final int SPEED = 50;
+	private final int SPEED = 200;
 	private volatile boolean running = true;
 	
 	public Zipline(EV3LargeRegulatedMotor motor, EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right) {

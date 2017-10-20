@@ -206,6 +206,7 @@ public class ZiplineLab {
 		double realY = getInitialY() * 30.48;
 		if(startingCorner == 2) {
 			navigation.travelTo(realX, 0);
+			while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
 			navigation.travelTo(0, realY);
 		}
 		else {

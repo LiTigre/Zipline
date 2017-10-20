@@ -29,7 +29,7 @@ public class ZiplineLab {
 	public static final EV3LargeRegulatedMotor sensorMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 
 	public static final double WHEEL_RADIUS = 2.2;
-	public static final double TRACK = 14.5;
+	public static final double TRACK = 14.3;
 	public static final double GRID_LENGTH = 30.48;
 	private static int initialX = 0;
 	private static int initialY = 0;
@@ -67,7 +67,43 @@ public class ZiplineLab {
 		buttonChoice = Button.waitForAnyPress();
 		
 		//Display the UI
-		coordinatesUI(initialX,initialY, 8);
+		// clear the display
+		t.clear();
+
+		// ask the user to input the X position
+		t.drawString("   Value of X   ", 0, 0);
+		t.drawString("                ", 0, 1);
+		t.drawString("                ", 0, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("  Go to Y axis  ", 0, 4);
+
+		buttonChoice = Button.waitForAnyPress();
+		initialX = modifyPoint(initialX, buttonChoice, 8);
+
+		// clear the display
+		t.clear();
+
+		// ask the user to input the Y position
+		t.drawString("   Value of Y   ", 0, 0);
+		t.drawString("                ", 0, 1);
+		t.drawString("                ", 0, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("     Review     ", 0, 4);
+
+		buttonChoice = Button.waitForAnyPress();
+		initialY = modifyPoint(initialY, buttonChoice, 3);
+
+		// clear the display
+		t.clear();
+
+		// Display the (x,y) of the point inputed
+		t.drawString("     Point      ", 0, 0);
+		t.drawString("X:              ", 0, 1);
+		t.drawString("" + initialX, 2, 1);
+		t.drawString("Y:              ", 0, 2);
+		t.drawString("" + initialY, 2, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("     Start      ", 0, 4);
 		buttonChoice = Button.waitForAnyPress();
 		
 		t.clear();
@@ -79,8 +115,46 @@ public class ZiplineLab {
 		t.drawString("                ", 0, 4);
 		buttonChoice = Button.waitForAnyPress();
 
-		coordinatesUI(finalX, finalY, 3);
+		//Display the UI
+		// clear the display
+		t.clear();
+
+		// ask the user to input the X position
+		t.drawString("   Value of X   ", 0, 0);
+		t.drawString("                ", 0, 1);
+		t.drawString("                ", 0, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("  Go to Y axis  ", 0, 4);
+
 		buttonChoice = Button.waitForAnyPress();
+		initialX = modifyPoint(finalX, buttonChoice, 8);
+
+		// clear the display
+		t.clear();
+
+		// ask the user to input the Y position
+		t.drawString("   Value of Y   ", 0, 0);
+		t.drawString("                ", 0, 1);
+		t.drawString("                ", 0, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("     Review     ", 0, 4);
+
+		buttonChoice = Button.waitForAnyPress();
+		finalY = modifyPoint(finalY, buttonChoice, 3);
+
+		// clear the display
+		t.clear();
+
+		// Display the (x,y) of the point inputed
+		t.drawString("     Point      ", 0, 0);
+		t.drawString("X:              ", 0, 1);
+		t.drawString("" + finalX, 2, 1);
+		t.drawString("Y:              ", 0, 2);
+		t.drawString("" + finalY, 2, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("     Start      ", 0, 4);
+		buttonChoice = Button.waitForAnyPress();
+		
 		
 		// clear the display
 		t.clear();
@@ -110,9 +184,12 @@ public class ZiplineLab {
 		}
 		while (Button.waitForAnyPress() != Button.ID_ENTER);
 		lightLocalizer.run();
+		buttonChoice = Button.waitForAnyPress();
 		//convert the points to actual distances
-		double realX = initialX * 30.48;
-		double realY = initialY * 30.48;
+		double realX = getInitialX() * 30.48;
+		double realY = getInitialY() * 30.48;
+		System.out.println(realX);
+		System.out.println(realY);
 		navigation.travelTo(realX, realY);
 
 
@@ -143,46 +220,6 @@ public class ZiplineLab {
 		return pos;
 	}
 	
-	//UI method to avoid repetition
-	static void coordinatesUI(int posX, int posY, int value) {
-		// clear the display
-		t.clear();
-
-		// ask the user to input the X position
-		t.drawString("   Value of X   ", 0, 0);
-		t.drawString("                ", 0, 1);
-		t.drawString("                ", 0, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("  Go to Y axis  ", 0, 4);
-
-		int buttonChoice = Button.waitForAnyPress();
-		posX = modifyPoint(posX, buttonChoice, value);
-
-		// clear the display
-		t.clear();
-
-		// ask the user to input the Y position
-		t.drawString("   Value of Y   ", 0, 0);
-		t.drawString("                ", 0, 1);
-		t.drawString("                ", 0, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("     Review     ", 0, 4);
-
-		buttonChoice = Button.waitForAnyPress();
-		posY = modifyPoint(posY, buttonChoice, value);
-
-		// clear the display
-		t.clear();
-
-		// Display the (x,y) of the point inputed
-		t.drawString("     Point      ", 0, 0);
-		t.drawString("X:              ", 0, 1);
-		t.drawString("" + posX, 2, 1);
-		t.drawString("Y:              ", 0, 2);
-		t.drawString("" + posY, 2, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("     Start      ", 0, 4);
-	}
 
 	// Return the initial X inputed (used for other classes)
 	static int getInitialX() {
@@ -190,9 +227,9 @@ public class ZiplineLab {
 	}
 	
 	//Return the final X inputed
-	//static int getFinalX() {
-	//	return finalX;
-	//}
+	static int getCornerX() {
+		return finalX;
+	}
 
 	// Return the Y inputed (used for other classes)
 	static int getInitialY() {
@@ -200,7 +237,7 @@ public class ZiplineLab {
 	}
 	
 	//Return the final Y inputed 
-	//static int getFinalY() {
-	//	return finalY;
-	//}
+	static int getCornerY() {
+		return finalY;
+	}
 }

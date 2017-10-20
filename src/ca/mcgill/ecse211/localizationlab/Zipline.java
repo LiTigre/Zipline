@@ -17,14 +17,14 @@ public class Zipline implements Runnable{
 	}
 	
 	public void run() {
-		while (running) {
 			motor.setSpeed(SPEED);
 			right.setSpeed(SPEED);
 			left.setSpeed(SPEED);
-			left.forward();
+			motor.backward();
 			right.rotate(1000, true);
-			motor.rotate(1000, false);			
-		}
+			left.rotate(1000, false );		
+			right.stop();
+			left.stop();
 	}
 	
 	public void terminate() {

@@ -210,6 +210,8 @@ public class ZiplineLab {
 			navigation.travelTo(0, realY);
 		}
 		else {
+			navigation.rightMotor.setAcceleration(100);
+			navigation.leftMotor.setAcceleration(100);
 			navigation.travelTo(realX, realY);
 		}
 		

@@ -12,8 +12,8 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
  */
 public class Navigation {
 
-	private static final int FORWARD_SPEED = 100;
-	private static final int ROTATE_SPEED = 100;
+	private static final int FORWARD_SPEED = 50;
+	private static final int ROTATE_SPEED = 50;
 	public EV3LargeRegulatedMotor leftMotor;
 	public EV3LargeRegulatedMotor rightMotor;
 	double amountTurned;
@@ -76,7 +76,6 @@ public class Navigation {
 
 	// TODO:DOES NOT WORK IN THREAD --> FIGURE THAT OUT
 	void turnTo(double theta) {
-
 		leftMotor.setSpeed(ROTATE_SPEED);
 		rightMotor.setSpeed(ROTATE_SPEED);
 		leftMotor.rotate(convertAngle(radius, width, theta), true);

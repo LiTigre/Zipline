@@ -204,15 +204,29 @@ public class ZiplineLab {
 		//convert the points to actual distances
 		double realX = getInitialX() * 30.48;
 		double realY = getInitialY() * 30.48;
-		if(startingCorner == 2) {
+		
+		if(startingCorner == 1){
+			navigation.travelTo(realX, realY);
+			while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
+			odometer.setPosition(new double[] {7*30.48, 30.48, 0}, new boolean[] {true, true, true});
+		}
+		else if(startingCorner == 2) {
 			navigation.travelTo(realX, 0);
 			while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
 			navigation.travelTo(0, realY);
+			while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
+			odometer.setPosition(new double[] {7*30.48, 7*30.48, 0}, new boolean[] {true, true, true});
 		}
-		else {
-			navigation.rightMotor.setAcceleration(100);
-			navigation.leftMotor.setAcceleration(100);
+		else if(startingCorner == 3){
 			navigation.travelTo(realX, realY);
+			while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
+			odometer.setPosition(new double[] {30.48, 7*30.48, 0}, new boolean[] {true, true, true});
+
+		}
+		else{
+			navigation.travelTo(realX, realY);
+			while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
+			odometer.setPosition(new double[] {30.48, 30.48, 0}, new boolean[] {true, true, true});
 		}
 		
 		buttonChoice = Button.waitForAnyPress();
@@ -247,6 +261,7 @@ public class ZiplineLab {
 		} while (firstChoice != Button.ID_ENTER);
 		return pos;
 	}
+
 
 	// Return the initial X inputed (used for other classes)
 	static int getInitialX() {

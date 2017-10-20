@@ -35,6 +35,7 @@ public class ZiplineLab {
 	private static int initialY = 0;
 	private static int finalX = 0;
 	private static int finalY = 0;
+	private static int startingCorner = 0;
 	static final TextLCD t = LocalEV3.get().getTextLCD();
 
 	/**
@@ -129,7 +130,7 @@ public class ZiplineLab {
 		t.drawString("  Go to Y axis  ", 0, 4);
 
 		buttonChoice = Button.waitForAnyPress();
-		finalX = modifyPoint(finalX, buttonChoice, 3);
+		finalX = modifyPoint(finalX, buttonChoice, 8);
 
 		// clear the display
 		t.clear();
@@ -142,7 +143,7 @@ public class ZiplineLab {
 		t.drawString("     Review     ", 0, 4);
 
 		buttonChoice = Button.waitForAnyPress();
-		finalY = modifyPoint(finalY, buttonChoice, 3);
+		finalY = modifyPoint(finalY, buttonChoice, 8);
 
 		// clear the display
 		t.clear();
@@ -156,6 +157,19 @@ public class ZiplineLab {
 		t.drawString(" Press Enter to ", 0, 3);
 		t.drawString("     Start      ", 0, 4);
 		buttonChoice = Button.waitForAnyPress();
+		
+		// clear the display
+		t.clear();
+
+		// ask the user to input the Y position
+		t.drawString("Starting Corner ", 0, 0);
+		t.drawString("                ", 0, 1);
+		t.drawString("                ", 0, 2);
+		t.drawString(" Press Enter to ", 0, 3);
+		t.drawString("     Start      ", 0, 4);
+
+		buttonChoice = Button.waitForAnyPress();
+		startingCorner = modifyPoint(startingCorner, buttonChoice, 3);
 		
 		
 		// clear the display
@@ -184,13 +198,19 @@ public class ZiplineLab {
 			lcdDisplay.start();
 			localizer.localize();
 		}
-		while (Button.waitForAnyPress() != Button.ID_ENTER);
+		while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
 		lightLocalizer.run();
-		buttonChoice = Button.waitForAnyPress();
+
 		//convert the points to actual distances
 		double realX = getInitialX() * 30.48;
 		double realY = getInitialY() * 30.48;
-		navigation.travelTo(realX, realY);
+		if(startingCorner == 2) {
+			navigation.travelTo(realX, 0);
+			navigation.travelTo(0, realY);
+		}
+		else {
+			navigation.travelTo(realX, realY);
+		}
 		
 		buttonChoice = Button.waitForAnyPress();
 		//convert the points to actual distances
@@ -198,7 +218,6 @@ public class ZiplineLab {
 		double realCornerY = getCornerY() * 30.48;
 		navigation.travelTo(realCornerX, realCornerY);
 		
-		buttonChoice = Button.waitForAnyPress();
 		zipline.run();
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
@@ -225,7 +244,6 @@ public class ZiplineLab {
 		} while (firstChoice != Button.ID_ENTER);
 		return pos;
 	}
-	
 
 	// Return the initial X inputed (used for other classes)
 	static int getInitialX() {

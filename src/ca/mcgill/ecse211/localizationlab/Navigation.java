@@ -82,6 +82,25 @@ public class Navigation {
 		rightMotor.rotate(-convertAngle(radius, width, theta), true);
 	}
 
+	void turnToPoint(double x, double y) {
+		double deltaY = y - odometer.getY();
+		double deltaX = x - odometer.getX();
+
+		double thetaD = Math.toDegrees(Math.atan2(deltaX, deltaY));
+		double thetaTurn = thetaD - odometer.getTheta();
+		if (thetaTurn < -180.0) {
+			turnTo(360.0 + thetaTurn);
+
+		}
+		else if (thetaTurn > 180.0) {
+			turnTo(thetaTurn - 360.0);
+		}
+		else {
+			turnTo(thetaTurn);
+		}
+		while (leftMotor.isMoving() && rightMotor.isMoving()) {
+		}
+	}
 	/**
 	* @return the navigating boolean 
 	*/

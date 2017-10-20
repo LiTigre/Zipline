@@ -204,6 +204,9 @@ public class ZiplineLab {
 		//convert the points to actual distances
 		double realX = getInitialX() * 30.48;
 		double realY = getInitialY() * 30.48;
+		//convert the points to actual distances
+		double realCornerX = getCornerX() * 30.48;
+		double realCornerY = getCornerY() * 30.48;
 		
 		if(startingCorner == 1){
 			odometer.setPosition(new double[] {7*30.48, 30.48, odometer.getTheta()+270}, new boolean[] {true, true, true});
@@ -223,11 +226,8 @@ public class ZiplineLab {
 			odometer.setPosition(new double[] {30.48, 30.48, odometer.getTheta()}, new boolean[] {true, true, true});
 			navigation.travelTo(realX, realY);
 		}
-		
+		navigation.turnToPoint(realCornerX, realCornerY);
 		buttonChoice = Button.waitForAnyPress();
-		//convert the points to actual distances
-		double realCornerX = getCornerX() * 30.48;
-		double realCornerY = getCornerY() * 30.48;
 		navigation.travelTo(realCornerX, realCornerY);
 		
 		zipline.run();

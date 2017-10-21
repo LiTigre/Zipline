@@ -168,8 +168,8 @@ public class ZiplineLab {
 		t.drawString(" Press Enter to ", 0, 3);
 		t.drawString("     Start      ", 0, 4);
 
-		buttonChoice = Button.waitForAnyPress();
 		startingCorner = modifyPoint(startingCorner, buttonChoice, 3);
+		//buttonChoice = Button.waitForAnyPress();
 		
 		
 		// clear the display
@@ -209,21 +209,21 @@ public class ZiplineLab {
 		double realCornerY = getCornerY() * 30.48;
 		
 		if(startingCorner == 1){
-			odometer.setPosition(new double[] {7*30.48, 30.48, odometer.getTheta()+270}, new boolean[] {true, true, true});
+			odometer.setPosition(new double[] {odometer.getX()+7*30.48, odometer.getY()+30.48, odometer.getTheta()+270}, new boolean[] {true, true, true});
 			navigation.travelTo(realX, realY);
 		}
 		else if(startingCorner == 2) {
-			odometer.setPosition(new double[] {7*30.48, 7*30.48, odometer.getTheta()+180}, new boolean[] {true, true, true});
+			odometer.setPosition(new double[] {odometer.getX()+7*30.48, odometer.getY()+7*30.48, odometer.getTheta()+180}, new boolean[] {true, true, true});
 			navigation.travelTo(realX, 0);
 			while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
 			navigation.travelTo(0, realY);
 		}
 		else if(startingCorner == 3){
-			odometer.setPosition(new double[] {30.48, 7*30.48, odometer.getTheta()+90}, new boolean[] {true, true, true});
+			odometer.setPosition(new double[] {odometer.getX()+30.48, odometer.getY()+7*30.48, odometer.getTheta()+90}, new boolean[] {true, true, true});
 			navigation.travelTo(realX, realY);
 		}
 		else{
-			odometer.setPosition(new double[] {30.48, 30.48, odometer.getTheta()}, new boolean[] {true, true, true});
+			odometer.setPosition(new double[] {odometer.getX()+30.48, odometer.getY()+30.48, odometer.getTheta()}, new boolean[] {true, true, true});
 			navigation.travelTo(realX, realY);
 		}
 		navigation.turnToPoint(realCornerX, realCornerY);

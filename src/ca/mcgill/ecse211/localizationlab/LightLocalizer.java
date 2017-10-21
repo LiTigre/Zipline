@@ -81,6 +81,5 @@ public class LightLocalizer extends Thread {
 
 			//Navigate to the origin. 
 			navigation.travelTo(0,0);
-			navigation.turnTo(-(odometer.getTheta()));
 	}
 }

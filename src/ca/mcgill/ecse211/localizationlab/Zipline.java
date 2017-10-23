@@ -21,10 +21,10 @@ public class Zipline implements Runnable{
 			right.setSpeed(SPEED);
 			left.setSpeed(SPEED);
 			motor.backward();
-			right.rotate(1000, true);
-			left.rotate(1000, false );		
-			right.stop();
-			left.stop();
+			right.forward();
+			left.forward();
+			//right.stop();
+			//left.stop();
 	}
 	
 	public void terminate() {

@@ -28,8 +28,8 @@ public class ZiplineLab {
 	private static final EV3ColorSensor lightSensor = new EV3ColorSensor(LocalEV3.get().getPort("S1"));
 	public static final EV3LargeRegulatedMotor sensorMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 
-	public static final double WHEEL_RADIUS = 2.2;
-	public static final double TRACK = 14.3;
+	public static final double WHEEL_RADIUS = 2.1;
+	public static final double TRACK = 13.46;
 	public static final double GRID_LENGTH = 30.48;
 	private static int initialX = 0;
 	private static int initialY = 0;
@@ -214,9 +214,9 @@ public class ZiplineLab {
 		}
 		else if(startingCorner == 2) {
 			odometer.setPosition(new double[] {odometer.getX()+7*30.48, odometer.getY()+7*30.48, odometer.getTheta()+180}, new boolean[] {true, true, true});
-			navigation.travelTo(realX, 0);
+			navigation.travelTo(realX, odometer.getY());
 			while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
-			navigation.travelTo(0, realY);
+			navigation.travelTo(realX, realY);
 		}
 		else if(startingCorner == 3){
 			odometer.setPosition(new double[] {odometer.getX()+30.48, odometer.getY()+7*30.48, odometer.getTheta()+90}, new boolean[] {true, true, true});

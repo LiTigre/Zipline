@@ -16,7 +16,7 @@ import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 
 /**
- * @author Christos Panaritis and Kevin Chuong
+ * @author Team 2
  *
  */
 public class ZiplineLab {

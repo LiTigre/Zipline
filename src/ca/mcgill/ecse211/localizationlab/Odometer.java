@@ -3,7 +3,7 @@ package ca.mcgill.ecse211.localizationlab;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 /**
- * @author Christos Panaritis and Keving Chuong
+ * @author Team 2
  *
  */
 public class Odometer extends Thread {

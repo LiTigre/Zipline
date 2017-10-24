@@ -6,7 +6,7 @@ import lejos.hardware.Sound;
 import lejos.robotics.SampleProvider;
 
 /**
- * @author Christos Panaritis and Keving Chuong
+ * @author Team 2
  *
  */
 public class LightLocalizer extends Thread {

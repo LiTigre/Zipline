@@ -4,7 +4,7 @@ import lejos.hardware.lcd.TextLCD;
 import lejos.robotics.SampleProvider;
 
 /**
- * @author Christos Panaritis and Kevin Chuong
+ * @author Team 2
  *
  */
 public class LCDDisplay extends Thread {

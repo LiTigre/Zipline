@@ -6,7 +6,7 @@ package ca.mcgill.ecse211.localizationlab;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 /**
- * @author Christos Panaritis Kevin Chuong
+ * @author Team 2
  * Navigation class
  *
  */
@@ -83,6 +83,10 @@ public class Navigation {
 		rightMotor.rotate(-convertAngle(radius, width, theta), true);
 	}
 
+	/**
+	 * @param x
+	 * @param y
+	 */
 	void turnToPoint(double x, double y) {
 		double deltaY = y - odometer.getY();
 		double deltaX = x - odometer.getX();

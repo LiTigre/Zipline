@@ -76,6 +76,7 @@ public class Navigation {
 
 	// TODO:DOES NOT WORK IN THREAD --> FIGURE THAT OUT
 	void turnTo(double theta) {
+
 		leftMotor.setSpeed(ROTATE_SPEED);
 		rightMotor.setSpeed(ROTATE_SPEED);
 		leftMotor.rotate(convertAngle(radius, width, theta), true);

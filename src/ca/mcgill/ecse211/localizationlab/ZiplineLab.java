@@ -28,8 +28,9 @@ public class ZiplineLab {
 	private static final EV3ColorSensor lightSensor = new EV3ColorSensor(LocalEV3.get().getPort("S1"));
 	public static final EV3LargeRegulatedMotor sensorMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 
-	public static final double WHEEL_RADIUS = 2.1;
-	public static final double TRACK = 13.46;
+	public static final double WHEEL_RADIUS = 2.10;
+	public static final double TRACK = 13.22;
+			;
 	public static final double GRID_LENGTH = 30.48;
 	private static int initialX = 0;
 	private static int initialY = 0;
@@ -182,8 +183,9 @@ public class ZiplineLab {
 		t.drawString("       |        ", 0, 4);
 
 		buttonChoice = Button.waitForAnyPress();
+		navigation.leftMotor.setAcceleration(250);
+		navigation.rightMotor.setAcceleration(250);
 		while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
-
 		if (buttonChoice == Button.ID_LEFT) {
 			UltrasonicLocalizer localizer = new UltrasonicLocalizer(odometer, LocalizationState.FALLING_EDGE, usSensor,
 					usData, navigation);
@@ -202,30 +204,31 @@ public class ZiplineLab {
 		lightLocalizer.run();
 
 		//convert the points to actual distances
-		double realX = getInitialX() * 30.48;
-		double realY = getInitialY() * 30.48;
+		double realX = getInitialX() * GRID_LENGTH;
+		double realY = getInitialY() * GRID_LENGTH;
 		//convert the points to actual distances
-		double realCornerX = getCornerX() * 30.48;
-		double realCornerY = getCornerY() * 30.48;
+		double realCornerX = getCornerX() * GRID_LENGTH;
+		double realCornerY = getCornerY() * GRID_LENGTH;
 		
 		if(startingCorner == 1){
-			odometer.setPosition(new double[] {odometer.getX()+7*30.48, odometer.getY()+30.48, odometer.getTheta()+270}, new boolean[] {true, true, true});
+			odometer.setPosition(new double[] {odometer.getX()+7*GRID_LENGTH, odometer.getY()+GRID_LENGTH, odometer.getTheta()+270}, new boolean[] {true, true, true});
 			navigation.travelTo(realX, realY);
 		}
 		else if(startingCorner == 2) {
-			odometer.setPosition(new double[] {odometer.getX()+7*30.48, odometer.getY()+7*30.48, odometer.getTheta()+180}, new boolean[] {true, true, true});
+			odometer.setPosition(new double[] {odometer.getX()+7*GRID_LENGTH, odometer.getY()+7*GRID_LENGTH, odometer.getTheta()+180}, new boolean[] {true, true, true});
 			navigation.travelTo(realX, odometer.getY());
 			while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
 			navigation.travelTo(realX, realY);
 		}
 		else if(startingCorner == 3){
-			odometer.setPosition(new double[] {odometer.getX()+30.48, odometer.getY()+7*30.48, odometer.getTheta()+90}, new boolean[] {true, true, true});
+			odometer.setPosition(new double[] {odometer.getX()+GRID_LENGTH, odometer.getY()+7*GRID_LENGTH, odometer.getTheta()+90}, new boolean[] {true, true, true});
 			navigation.travelTo(realX, realY);
 		}
 		else{
-			odometer.setPosition(new double[] {odometer.getX()+30.48, odometer.getY()+30.48, odometer.getTheta()}, new boolean[] {true, true, true});
+			odometer.setPosition(new double[] {odometer.getX()+GRID_LENGTH, odometer.getY()+GRID_LENGTH, odometer.getTheta()}, new boolean[] {true, true, true});
 			navigation.travelTo(realX, realY);
 		}
+
 		navigation.turnToPoint(realCornerX, realCornerY);
 		buttonChoice = Button.waitForAnyPress();
 		navigation.travelTo(realCornerX, realCornerY);

@@ -23,8 +23,15 @@ public class Zipline implements Runnable{
 			motor.backward();
 			right.forward();
 			left.forward();
-			//right.stop();
-			//left.stop();
+			try{
+			Thread.sleep(32000);
+			}
+			catch(InterruptedException e){
+				
+			}
+			motor.stop();
+			right.setSpeed(0);
+			left.setSpeed(0);
 	}
 	
 	public void terminate() {

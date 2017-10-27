@@ -22,8 +22,8 @@ public class Odometer extends Thread {
 	private Object lock; /* lock object for mutual exclusion */
 
 	/**
-	* @param leftMotor
-	* @param rightMotor
+	* @param leftMotor		motor for left wheel
+	* @param rightMotor		motor for right wheel
 	*/
 	public Odometer(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor) {
 		this.leftMotor = leftMotor;
@@ -105,7 +105,7 @@ public class Odometer extends Thread {
 	}
 
 	/**
-	* @return
+	* @return x position
 	*/
 	public double getX() {
 		double result;
@@ -118,7 +118,7 @@ public class Odometer extends Thread {
 	}
 
 	/**
-	* @return
+	* @return y position
 	*/
 	public double getY() {
 		double result;
@@ -131,7 +131,7 @@ public class Odometer extends Thread {
 	}
 
 	/**
-	* @return
+	* @return theta
 	*/
 	public double getTheta() {
 		double result;
@@ -220,6 +220,8 @@ public class Odometer extends Thread {
 	}
 
 	/**
+	*	Adjusts the theta to be between 0 and 360 
+	* 
 	* @param angle
 	*/
 	public void wrapAngle(double angle) {

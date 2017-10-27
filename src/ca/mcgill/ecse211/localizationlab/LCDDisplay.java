@@ -72,7 +72,7 @@ public class LCDDisplay extends Thread {
 	}
 
 	/**
-	* @return
+	* @return distance read by ultrasonic sensor
 	*/
 	private double getDistanceValue() {
 		usSensor.fetchSample(usData, 0);
@@ -80,9 +80,11 @@ public class LCDDisplay extends Thread {
 	}
 
 	/**
-	* @param x
-	* @param places
-	* @return
+	* Returns a String that can be properly printed on the display
+	* 
+	* @param x 				the number (double) to be formatted
+	* @param places		
+	* @return					a formatted String to display on the screen
 	*/
 	private static String formattedDoubleToString(double x, int places) {
 		String result = "";

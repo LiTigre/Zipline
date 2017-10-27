@@ -26,17 +26,13 @@ public class UltrasonicLocalizer {
 	private boolean isCompleted = false;
 	public static boolean active = true;
 	
-	
-	
-	
-	
 	/**
 	 * Constructor
-	 * @param odometer
-	 * @param state
-	 * @param usSensor
-	 * @param usData
-	 * @param navigation
+	 * @param odometer			instance of odometer class
+	 * @param state					state of localizer (falling edge or rising edge)
+	 * @param usSensor			provider for ultrasonic sensor
+	 * @param usData				array holding the data from ultrasonic sensor
+	 * @param navigation		instance of navigation class
 	 */
 	public UltrasonicLocalizer (Odometer odometer, LocalizationState state, SampleProvider usSensor, float[] usData, Navigation navigation){
 		this.odometer = odometer;
@@ -47,7 +43,7 @@ public class UltrasonicLocalizer {
 	}
 	
 	/**
-	 * localizes the 0 degree
+	 * Localizes the robot to face 0 degrees
 	 */
 	public void localize(){
 		
@@ -154,7 +150,7 @@ public class UltrasonicLocalizer {
 		}
 	}
 	/**
-	 * @return
+	 * @return	distance read by ultrasonic sensor
 	 */
 	public double getDistanceValue(){
 		usSensor.fetchSample(usData, 0);

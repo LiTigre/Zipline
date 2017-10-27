@@ -240,7 +240,15 @@ public class ZiplineLab {
 
 	}
 
-	// Method that updates the x/y position on the screen and the variable
+	/**
+	 * Returns an integer that is the x/y point selected by
+	 * the user on the display
+	 * 
+	 * @param pos						current selected position
+	 * @param firstChoice		pushed button
+	 * @param maxValue			maximum possible value of point
+	 * @return							the point selected by the user
+	 */
 	static int modifyPoint(int pos, int firstChoice, int maxValue) {
 		do {
 			if (firstChoice == Button.ID_UP) {
@@ -261,22 +269,30 @@ public class ZiplineLab {
 	}
 
 
-	// Return the initial X inputed (used for other classes)
+	/**
+	 * @return initial inputed X position
+	 */
 	static int getInitialX() {
 		return initialX;
 	}
 	
-	//Return the final X inputed
+	/**
+	 * @return final inputed X position
+	 */
 	static int getCornerX() {
 		return finalX;
 	}
 
-	// Return the Y inputed (used for other classes)
+	/**
+	 * @return initial inputed Y position
+	 */
 	static int getInitialY() {
 		return initialY;
 	}
 	
-	//Return the final Y inputed 
+	/**
+	 * @return final inputed Y position
+	 */
 	static int getCornerY() {
 		return finalY;
 	}

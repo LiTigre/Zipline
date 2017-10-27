@@ -15,9 +15,9 @@ public class Zipline implements Runnable{
 	private volatile boolean running = true;
 	
 	/**
-	 * @param motor
-	 * @param left
-	 * @param right
+	 * @param motor		Motor that controls the pulley
+	 * @param left		Motor that controls the left wheel
+	 * @param right		Motor that controls the right wheel
 	 */
 	public Zipline(EV3LargeRegulatedMotor motor, EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right) {
 		this.motor = motor;
@@ -46,6 +46,9 @@ public class Zipline implements Runnable{
 			left.setSpeed(0);
 	}
 
+	/**
+	 * End the thread
+	 */
 	public void terminate() {
 		this.running = false;
 	}

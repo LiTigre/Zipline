@@ -25,12 +25,12 @@ public class Navigation {
 
 	/**
 	 * constructor
-	* @param leftMotor
-	* @param rightMotor
-	* @param leftRadius
-	* @param rightRadius
-	* @param width
-	* @param odometer
+	* @param leftMotor		motor that controls the left wheel
+	* @param rightMotor		motor that controls the right wheel
+	* @param leftRadius		radius of left wheel
+	* @param rightRadius	radius of right wheel
+	* @param width				width of robot
+	* @param odometer			instance of odometer class
 	*/
 	public Navigation(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor, double leftRadius,
 			double rightRadius, double width, Odometer odometer) {
@@ -41,6 +41,12 @@ public class Navigation {
 		this.odometer = odometer;
 	}
 
+	/**
+	 * Robot travels to inputted (x, y) coordinate
+	 * 
+	 * @param x x point to travel to
+	 * @param y y point to travel to
+	 */
 	void travelTo(double x, double y) {
 
 		navigating = true;
@@ -70,8 +76,9 @@ public class Navigation {
 	}
 
 	/**
-	* @param theta
-	* finds what the robot should rotate at.
+	* Robot turns to passed in angle
+	* 
+	* @param theta angle to turn to in degrees
 	*/
 
 	// TODO:DOES NOT WORK IN THREAD --> FIGURE THAT OUT
@@ -84,8 +91,10 @@ public class Navigation {
 	}
 
 	/**
-	 * @param x
-	 * @param y
+	 * Turns robot to face the passed in (x, y) coordinate
+	 * 
+	 * @param x x coordinate to point robot to
+	 * @param y	y coordinate to point robot to
 	 */
 	void turnToPoint(double x, double y) {
 		double deltaY = y - odometer.getY();
@@ -107,47 +116,53 @@ public class Navigation {
 		}
 	}
 	/**
-	* @return the navigating boolean 
+	* @return whether the root is navigating
 	*/
 	public boolean isNavigating() {
 		return this.navigating;
 	}
 
 	/**
-	* @return the boolean
+	* @return status of the robot
 	*/
 	public boolean getStatus() {
 		return this.active;
 	}
 
 	/**
-	* sets the boolean to true
+	* Sets the robot to active
 	*/
 	public void activate() {
 		this.active = true;
 	}
 
 	/**
-	 * sets the boolean to false
+	 * Sets the robot to not active
 	 */
 	public void deactivate() {
 		this.active = false;
 	}
 
 	/**
-	* @param radius
-	* @param distance
-	* @return
+	*	Returns distance the wheels must turn to acheive
+	* wanted distance passed in 
+	* 
+	* @param radius			radius of wheel
+	* @param distance		distance to travel
+	* @return 					distance wheel must turn
 	*/
 	private static int convertDistance(double radius, double distance) {
 		return (int) ((180.0 * distance) / (Math.PI * radius));
 	}
 
 	/**
-	* @param radius
-	* @param width
-	* @param angle
-	* @return
+	* Returns the distance the robot must travel to achieve
+	* the passed in angle
+	* 
+	* @param radius		radius of wheel
+	* @param width		width of robot
+	* @param angle		angle to turn
+	* @return					distance needed to travel
 	*/
 	private static int convertAngle(double radius, double width, double angle) {
 		return convertDistance(radius, Math.PI * width * angle / 360.0);

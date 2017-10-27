@@ -26,10 +26,10 @@ public class LightLocalizer extends Thread {
 	
 	
 	/**
-	 * @param odometer
-	 * @param colorSample
-	 * @param lightData
-	 * @param navigation
+	 * @param odometer			odometer class
+	 * @param colorSample		provider for the light sensor
+	 * @param lightData			array holding the light sensor data
+	 * @param navigation		navigation class
 	 */
 	public LightLocalizer (Odometer odometer, SampleProvider colorSample, float [] lightData, Navigation navigation) {
 		this.odometer = odometer;

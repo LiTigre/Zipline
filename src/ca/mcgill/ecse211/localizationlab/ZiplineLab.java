@@ -63,237 +63,30 @@ public class ZiplineLab {
 		
 		t.clear();
 		// ask the user to start localizing
-		t.drawString("  Coordinates	  ", 0, 0);
-		t.drawString("       for      ", 0, 1);
-		t.drawString("	Starting X,Y  ", 0, 2);
+		t.drawString("  press left	  ", 0, 0);
+		t.drawString("      or right  ", 0, 1);
+		t.drawString("	              ", 0, 2);
 		t.drawString("                ", 0, 3);
 		t.drawString("                ", 0, 4);
 		buttonChoice = Button.waitForAnyPress();
 		
-		//Display the UI
 		// clear the display
 		t.clear();
 
-		// ask the user to input the X position
-		t.drawString("   Value of X   ", 0, 0);
-		t.drawString("                ", 0, 1);
-		t.drawString("                ", 0, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("  Go to Y axis  ", 0, 4);
-
-		buttonChoice = Button.waitForAnyPress();
-		initialX = modifyPoint(initialX, buttonChoice, 8);
-
-		// clear the display
-		t.clear();
-
-		// ask the user to input the Y position
-		t.drawString("   Value of Y   ", 0, 0);
-		t.drawString("                ", 0, 1);
-		t.drawString("                ", 0, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("     Review     ", 0, 4);
-
-		buttonChoice = Button.waitForAnyPress();
-		initialY = modifyPoint(initialY, buttonChoice, 8);
-
-		// clear the display
-		t.clear();
-
-		// Display the (x,y) of the point inputed
-		t.drawString("     Point      ", 0, 0);
-		t.drawString("X:              ", 0, 1);
-		t.drawString("" + initialX, 2, 1);
-		t.drawString("Y:              ", 0, 2);
-		t.drawString("" + initialY, 2, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("     Start      ", 0, 4);
-		buttonChoice = Button.waitForAnyPress();
-		
-		t.clear();
-		// ask the user to start localizing
-		t.drawString("  Coordinates	  ", 0, 0);
-		t.drawString("       for      ", 0, 1);
-		t.drawString("	Corner X,Y    ", 0, 2);
-		t.drawString("                ", 0, 3);
-		t.drawString("                ", 0, 4);
-		buttonChoice = Button.waitForAnyPress();
-
-		//Display the UI
-		// clear the display
-		t.clear();
-
-		// ask the user to input the X position
-		t.drawString("   Value of X   ", 0, 0);
-		t.drawString("                ", 0, 1);
-		t.drawString("                ", 0, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("  Go to Y axis  ", 0, 4);
-
-		buttonChoice = Button.waitForAnyPress();
-		finalX = modifyPoint(finalX, buttonChoice, 8);
-
-		// clear the display
-		t.clear();
-
-		// ask the user to input the Y position
-		t.drawString("   Value of Y   ", 0, 0);
-		t.drawString("                ", 0, 1);
-		t.drawString("                ", 0, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("     Review     ", 0, 4);
-
-		buttonChoice = Button.waitForAnyPress();
-		finalY = modifyPoint(finalY, buttonChoice, 8);
-
-		// clear the display
-		t.clear();
-
-		// Display the (x,y) of the point inputed
-		t.drawString("     Point      ", 0, 0);
-		t.drawString("X:              ", 0, 1);
-		t.drawString("" + finalX, 2, 1);
-		t.drawString("Y:              ", 0, 2);
-		t.drawString("" + finalY, 2, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("     Start      ", 0, 4);
-		buttonChoice = Button.waitForAnyPress();
-		
-		// clear the display
-		t.clear();
-
-		// ask the user to input the Y position
-		t.drawString("Starting Corner ", 0, 0);
-		t.drawString("                ", 0, 1);
-		t.drawString("                ", 0, 2);
-		t.drawString(" Press Enter to ", 0, 3);
-		t.drawString("     Start      ", 0, 4);
-
-		startingCorner = modifyPoint(startingCorner, buttonChoice, 3);
-		//buttonChoice = Button.waitForAnyPress();
-		
-		
-		// clear the display
-		t.clear();
-		// ask the user to start localizing
-		t.drawString("< Left | Right >", 0, 0);
-		t.drawString("       |        ", 0, 1);
-		t.drawString("Falling| Rising ", 0, 2);
-		t.drawString(" Edge  | Edge   ", 0, 3);
-		t.drawString("       |        ", 0, 4);
-
-		buttonChoice = Button.waitForAnyPress();
-		navigation.leftMotor.setAcceleration(250);
-		navigation.rightMotor.setAcceleration(250);
-		while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
 		if (buttonChoice == Button.ID_LEFT) {
-			UltrasonicLocalizer localizer = new UltrasonicLocalizer(odometer, LocalizationState.FALLING_EDGE, usSensor,
-					usData, navigation);
-			odometer.start();
-			lcdDisplay.start();
-			localizer.localize();
+			leftMotor.setSpeed(50);
+			rightMotor.setSpeed(50);
+			
+			leftMotor.rotate(Navigation.convertDistance(WHEEL_RADIUS, GRID_LENGTH * 2), true);
+			rightMotor.rotate(Navigation.convertDistance(WHEEL_RADIUS, GRID_LENGTH * 2), false);			
+		} else if (buttonChoice == Button.ID_RIGHT) {
+			leftMotor.setSpeed(100);
+			rightMotor.setSpeed(100);
+			zipline.run();
 		}
-		else {
-			UltrasonicLocalizer localizer = new UltrasonicLocalizer(odometer, LocalizationState.RISING_EDGE, usSensor,
-					usData, navigation);
-			odometer.start();
-			lcdDisplay.start();
-			localizer.localize();
-		}
-		while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
-		lightLocalizer.run();
-
-		//convert the points to actual distances
-		double realX = getInitialX() * GRID_LENGTH;
-		double realY = getInitialY() * GRID_LENGTH;
-		//convert the points to actual distances
-		double realCornerX = getCornerX() * GRID_LENGTH;
-		double realCornerY = getCornerY() * GRID_LENGTH;
-		
-		if(startingCorner == 1){
-			odometer.setPosition(new double[] {odometer.getX()+7*GRID_LENGTH, odometer.getY()+GRID_LENGTH, odometer.getTheta()+270}, new boolean[] {true, true, true});
-			navigation.travelTo(realX, realY);
-		}
-		else if(startingCorner == 2) {
-			odometer.setPosition(new double[] {odometer.getX()+7*GRID_LENGTH, odometer.getY()+7*GRID_LENGTH, odometer.getTheta()+180}, new boolean[] {true, true, true});
-			navigation.travelTo(realX, odometer.getY());
-			while (navigation.leftMotor.isMoving()&&navigation.rightMotor.isMoving());
-			navigation.travelTo(realX, realY);
-		}
-		else if(startingCorner == 3){
-			odometer.setPosition(new double[] {odometer.getX()+GRID_LENGTH, odometer.getY()+7*GRID_LENGTH, odometer.getTheta()+90}, new boolean[] {true, true, true});
-			navigation.travelTo(realX, realY);
-		}
-		else{
-			odometer.setPosition(new double[] {odometer.getX()+GRID_LENGTH, odometer.getY()+GRID_LENGTH, odometer.getTheta()}, new boolean[] {true, true, true});
-			navigation.travelTo(realX, realY);
-		}
-
-		navigation.turnToPoint(realCornerX, realCornerY);
-		buttonChoice = Button.waitForAnyPress();
-		navigation.travelTo(realCornerX, realCornerY);
-		
-		zipline.run();
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 		System.exit(0);
 
-	}
-
-	/**
-	 * Returns an integer that is the x/y point selected by
-	 * the user on the display
-	 * 
-	 * @param pos						current selected position
-	 * @param firstChoice		pushed button
-	 * @param maxValue			maximum possible value of point
-	 * @return							the point selected by the user
-	 */
-	static int modifyPoint(int pos, int firstChoice, int maxValue) {
-		do {
-			if (firstChoice == Button.ID_UP) {
-				if (pos < maxValue) {
-					pos++;
-					t.drawString("" + pos, 8, 1);
-				}
-			}
-			else if (firstChoice == Button.ID_DOWN) {
-				if (pos > 0) {
-					pos--;
-					t.drawString("" + pos, 8, 1);
-				}
-			}
-			firstChoice = Button.waitForAnyPress();
-		} while (firstChoice != Button.ID_ENTER);
-		return pos;
-	}
-
-
-	/**
-	 * @return initial inputed X position
-	 */
-	static int getInitialX() {
-		return initialX;
-	}
-	
-	/**
-	 * @return final inputed X position
-	 */
-	static int getCornerX() {
-		return finalX;
-	}
-
-	/**
-	 * @return initial inputed Y position
-	 */
-	static int getInitialY() {
-		return initialY;
-	}
-	
-	/**
-	 * @return final inputed Y position
-	 */
-	static int getCornerY() {
-		return finalY;
 	}
 }
